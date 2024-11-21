@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airport Locations</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.0.0/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .card {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+    .close-button {
+      transition: color 0.3s;
+    }
+    .close-button:hover {
+      color: #ff4d4d;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+  <div class="container mx-auto py-12 px-6">
+    <h1 class="text-4xl font-bold mb-10 text-center text-gray-900">Airport Locations</h1>
+
+    <!-- Airport Section -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Airport 1 -->
+      <div class="airport-card bg-white p-6 rounded-xl shadow-md hover:shadow-xl">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-900">San Francisco International Airport (SFO)</h2>
+        <div class="grid gap-4">
+          <button onclick="openTerminal('sfo-t1')" class="card bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-6 rounded-lg text-left font-medium text-white shadow-sm">Terminal 1</button>
+          <button onclick="openTerminal('sfo-t2')" class="card bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-6 rounded-lg text-left font-medium text-white shadow-sm">Terminal 2</button>
+          <button onclick="openTerminal('sfo-t3')" class="card bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-6 rounded-lg text-left font-medium text-white shadow-sm">Terminal 3</button>
+        </div>
+      </div>
+
+      <!-- Airport 2 -->
+      <div class="airport-card bg-white p-6 rounded-xl shadow-md hover:shadow-xl">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-900">Los Angeles International Airport (LAX)</h2>
+        <div class="grid gap-4">
+          <button onclick="openTerminal('lax-tb')" class="card bg-gradient-to-r from-blue-400 via-teal-500 to-green-500 p-6 rounded-lg text-left font-medium text-white shadow-sm">Tom Bradley International</button>
+          <button onclick="openTerminal('lax-t1')" class="card bg-gradient-to-r from-blue-400 via-teal-500 to-green-500 p-6 rounded-lg text-left font-medium text-white shadow-sm">Terminal 1</button>
+          <button onclick="openTerminal('lax-t2')" class="card bg-gradient-to-r from-blue-400 via-teal-500 to-green-500 p-6 rounded-lg text-left font-medium text-white shadow-sm">Terminal 2</button>
+        </div>
+      </div>
+
+      <!-- Airport 3 -->
+      <div class="airport-card bg-white p-6 rounded-xl shadow-md hover:shadow-xl">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-900">Newark Liberty International Airport (EWR)</h2>
+        <div class="grid gap-4">
+          <button onclick="openTerminal('ewr-tA')" class="card bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 p-6 rounded-lg text-left font-medium text-white shadow-sm">Terminal A</button>
+          <button onclick="openTerminal('ewr-tB')" class="card bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 p-6 rounded-lg text-left font-medium text-white shadow-sm">Terminal B</button>
+          <button onclick="openTerminal('ewr-tC')" class="card bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 p-6 rounded-lg text-left font-medium text-white shadow-sm">Terminal C</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terminal Card Modal -->
+  <div id="terminal-modal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-80">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-11/12 md:w-3/4 lg:w-3/5 flex flex-col md:flex-row">
+      <div class="flex-1 mr-8">
+        <iframe id="terminal-iframe" src="" width="100%" height="300" frameborder="0" title="luma embed" class="rounded-lg shadow-md" style="border: none;"></iframe>
+      </div>
+      <div class="flex-1">
+        <div class="bg-gray-100 p-4 rounded-lg mb-6">
+          <h3 id="terminal-title" class="text-3xl font-bold mb-4 text-gray-900">Terminal Title</h3>
+          <p id="terminal-description" class="text-lg leading-relaxed text-gray-700">Terminal Description</p>
+        </div>
+        <div class="bg-gray-100 p-4 rounded-lg mb-6">
+          <p id="terminal-time" class="text-lg font-medium text-gray-600 mb-2">Estimated Time: <span id="time-text"></span></p>
+          <div class="flex items-center mb-4">
+            <span class="font-semibold text-gray-800 mr-2">Accessibility Friendly:</span>
+            <div class="w-4 h-4 rounded-full bg-green-500"></div>
+          </div>
+          <div class="flex items-center mb-4">
+            <span class="font-semibold text-gray-800 mr-2">Traffic Score:</span>
+            <div class="w-4 h-4 rounded-full bg-yellow-500"></div>
+          </div>
+          <div class="flex items-center mb-4">
+            <span class="font-semibold text-gray-800 mr-2">Amenities Available:</span>
+            <div class="w-4 h-4 rounded-full bg-blue-500"></div>
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <button onclick="closeTerminal()" class="bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-600 transition">Close <span class="ml-2">&rarr;</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const terminals = {
+      'sfo-t1': {
+        title: 'San Francisco Terminal 1',
+        description: 'Home to domestic departures, with easy access to great amenities.',
+        iframe: 'https://lumalabs.ai/embed/3028ec67-08cf-4795-9048-758e71d7328c?mode=sparkles&background=%23ffffff&color=%23000000&showTitle=true&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=false',
+        time: '15-20 minutes from parking lot.'
+      },
+      'sfo-t2': {
+        title: 'San Francisco Terminal 2',
+        description: 'Beautifully designed terminal, providing access to numerous gates.',
+        iframe: 'https://lumalabs.ai/embed/3028ec67-08cf-4795-9048-758e71d7328c?mode=sparkles&background=%23ffffff&color=%23000000&showTitle=true&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=false',
+        time: '10 minutes from security checkpoint.'
+      },
+      'sfo-t3': {
+        title: 'San Francisco Terminal 3',
+        description: 'Dedicated to United Airlines, equipped with modern facilities.',
+        iframe: 'https://lumalabs.ai/embed/3028ec67-08cf-4795-9048-758e71d7328c?mode=sparkles&background=%23ffffff&color=%23000000&showTitle=true&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=false',
+        time: '5-10 minutes from entrance.'
+      },
+      'lax-tb': {
+        title: 'Tom Bradley International Terminal',
+        description: 'State-of-the-art terminal serving international passengers.',
+        iframe: 'https://lumalabs.ai/embed/998e7dfc-8863-4f99-88a6-80db8e359bba?mode=sparkles&background=%23ffffff&color=%23000000&showTitle=true&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=false',
+        time: '20 minutes from parking area.'
+      },
+      'lax-t1': {
+        title: 'Los Angeles Terminal 1',
+        description: 'Southwest Airlines terminal, offering quick check-in services.',
+        iframe: 'https://lumalabs.ai/embed/998e7dfc-8863-4f99-88a6-80db8e359bba?mode=sparkles&background=%23ffffff&color=%23000000&showTitle=true&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=false',
+        time: '15 minutes from gate area.'
+      },
+      'lax-t2': {
+        title: 'Los Angeles Terminal 2',
+        description: 'Focuses on international connections, with spacious lounges.',
+        iframe: 'https://lumalabs.ai/embed/998e7dfc-8863-4f99-88a6-80db8e359bba?mode=sparkles&background=%23ffffff&color=%23000000&showTitle=true&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=false',
+        time: '10-15 minutes from baggage claim.'
+      },
+      'ewr-tA': {
+        title: 'Newark Terminal A',
+        description: 'Mainly domestic, with a variety of restaurants and stores.',
+        iframe: 'https://lumalabs.ai/embed/b271fff7-37dd-47b1-8921-6375cd069c91?mode=sparkles&background=%23ffffff&color=%23000000&showTitle=true&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=false',
+        time: '10 minutes from ground transport.'
+      },
+      'ewr-tB': {
+        title: 'Newark Terminal B',
+        description: 'Caters to international flights, offering great amenities.',
+        iframe: 'https://lumalabs.ai/embed/b271fff7-37dd-47b1-8921-6375cd069c91?mode=sparkles&background=%23ffffff&color=%23000000&showTitle=true&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=false',
+        time: '15 minutes from customs.'
+      },
+      'ewr-tC': {
+        title: 'Newark Terminal C',
+        description: 'A busy terminal with easy access to multiple airlines.',
+        iframe: 'https://lumalabs.ai/embed/b271fff7-37dd-47b1-8921-6375cd069c91?mode=sparkles&background=%23ffffff&color=%23000000&showTitle=true&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=false',
+        time: '5 minutes from ticketing.'
+      }
+    };
+
+    function openTerminal(id) {
+      const terminal = terminals[id];
+      if (terminal) {
+        document.getElementById('terminal-title').textContent = terminal.title;
+        document.getElementById('terminal-description').textContent = terminal.description;
+        document.getElementById('terminal-iframe').src = terminal.iframe;
+        document.getElementById('time-text').textContent = terminal.time;
+        document.getElementById('terminal-modal').classList.remove('hidden');
+      }
+    }
+
+    function closeTerminal() {
+      document.getElementById('terminal-modal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

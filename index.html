@@ -32,7 +32,7 @@
     <!-- Sección de Puertos y Aeropuerto -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <!-- Puerto de Algeciras -->
-      <div class="port-card bg-white p-6 rounded-xl shadow-md hover:shadow-xl">
+      <div class="port-card bg-white p-6 rounded-xl shadow-md hover:shadow-xl overflow-y-auto max-h-screen">
         <h2 class="text-2xl font-semibold mb-6 text-gray-900">Puerto de Algeciras</h2>
         <div class="grid gap-4">
           <button onclick="openTerminal('algeciras-t1')" class="card bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-6 rounded-lg text-left font-medium text-white shadow-sm">Terminal de Carga</button>
@@ -50,7 +50,7 @@
       </div>
 
       <!-- Aeropuerto de Barajas -->
-      <div class="airport-card bg-white p-6 rounded-xl shadow-md hover:shadow-xl">
+      <div class="airport-card bg-white p-6 rounded-xl shadow-md hover:shadow-xl overflow-y-auto max-h-screen">
         <h2 class="text-2xl font-semibold mb-6 text-gray-900">Aeropuerto de Barajas</h2>
         <div class="grid gap-4">
           <button onclick="openTerminal('barajas-t1')" class="card bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 p-6 rounded-lg text-left font-medium text-white shadow-sm">Terminal 1</button>
@@ -62,7 +62,7 @@
   </div>
 
   <!-- Terminal Card Modal -->
-  <div id="terminal-modal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-80">
+  <div id="terminal-modal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-80 overflow-y-auto">
     <div class="bg-white p-8 rounded-xl shadow-lg w-11/12 md:w-full lg:w-3/4 flex flex-col md:flex-row">
       <div class="flex-1 md:mr-8 mb-4 md:mb-0">
         <iframe id="terminal-iframe" src="" width="100%" height="300" frameborder="0" title="luma embed" class="rounded-lg shadow-md" style="border: none;"></iframe>
